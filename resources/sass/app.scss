@@ -1,0 +1,318 @@
+// Fonts
+
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+ul,li{
+    list-style-type: none; 
+    padding:0;
+    margin:0;
+}
+a{
+    text-decoration:none;
+    color:inherit;
+    &:hover{
+        text-decoration: none;
+        color:inherit;
+    }
+}
+.ahtung{
+    box-shadow:0px 0px 3px 0px red !important;
+}
+/*Прописываем массив нужных размеров*/
+$screens: (all,1440,1024, 768, 425); 
+@mixin media($property, $values){
+    /*разбиваем введенные значения в цикле*/
+    @for $i from 1 through length($values) { 
+        /*Проверяем, если значение прописано как '' тогда пропускаем его*/
+        @if nth($values, $i) != ''{ 
+            @if nth($screens, $i) == 'all'{ 
+                /*Если это первое значение, тогда значение пропишется без @media screen */
+                #{$property}: unquote(#{nth($values, $i)});
+            } @else {
+                /*иначе помещаем свойство в @media screen с соответствующим индексом*/
+                @media screen and (max-width: nth($screens, $i) + 'px') {
+                    #{$property}: unquote(#{nth($values, $i)});
+                }
+            }
+        }
+    }
+}
+.pointer{
+    cursor:pointer;
+}
+.paginationC{
+    display:flex;
+    margin-bottom:10px;
+    .page-itemC{
+        color:grey;
+        padding:10px;
+        display:block;
+        
+            .page-linkC{
+                &:hover{
+                    border-bottom: 2px solid $red;
+            color:$red;
+            transition: 0.5s;
+                }
+            }
+            
+        
+    }
+    .active{
+        color:$red;
+
+    }
+    .disabled{
+        color:lightgray;
+    }
+    
+}
+body{
+    background-color: $body-bg;
+    margin:0;
+    padding:0;
+    font-family: $font-family-Ubuntu-max-sans-serif;
+    font-weight:$font-basic-weight;
+    letter-spacing:2px;
+    font-size: $font-size-base;
+    #content{
+        position:relative;
+        display:flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        @include media(margin, (5rem 30rem,5rem 20rem,5rem 10rem,3rem,2rem 0));
+        font-family: $font-family-Roboto-sans-serif;
+        color:grey;
+        @include media(gap, (2rem ,2rem ,1.5rem ,1rem,1rem ));
+        .bodyCard{
+            background-color: rgba(255,255,255,0.5);
+            padding:10px;
+            display:flex;
+            flex-direction: column;
+            font-style:italic;
+            box-shadow:$box_shadow_lite;
+            border-radius:$padding_min;
+            .cardTags{
+                margin:5px;
+                display:flex;
+                flex-direction:row;
+                flex-wrap: wrap;
+                .tag_name{
+                    color:$red;
+                    padding:5px;
+                    margin:5px;
+                    border:3px solid $red;
+                    align-self: flex-end;
+                    border-radius: 25px;
+                    text-align: center;
+                    opacity:0.5;
+                }
+            }
+            .cardDate{
+                color:$lowgrey;
+                margin-left:10px;
+            }
+            .cardText{
+                text-align:center;
+                letter-spacing:2px;
+                font-weight: 600;
+                margin:1rem 1rem;
+                &:first-letter{
+                color:$red;
+                font-size:2rem;
+                }
+                
+            }
+            .cardAuthor{
+                text-align:right;                
+                margin-top: 15px;
+                color:$lowgrey;
+                transition: 0.5s;
+            }
+        }
+    }
+    #modal-window{
+        width:100%;
+        top:0px;
+        display:none;
+        
+        #fade{
+            position:fixed;
+            z-index:3;
+            background-color: rgba(0,0,0,0.5);
+            width:100%;
+            min-height:100vh;
+            top:0;
+
+        
+        }
+        #modal{
+            background-color: $body-bg;
+            position:relative;
+            border-radius: $padding_min;
+            box-shadow: $box_shadow;
+            padding:$padding_min;
+            margin:25px;
+            z-index:5;
+
+            display:flex;
+            flex-direction:column;
+            align-content: space-between;
+
+            font-family: $font-family-Roboto-sans-serif;
+            @include media(margin, (5rem 30rem,5rem 20rem,5rem 5rem,3rem,0));
+            .modal_close {
+                width: 21px;
+                height: 21px;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                display: block;
+                opacity:0.8;
+                &:hover{
+                    opacity:1;
+                    transition: 0.3s;
+                }
+             }
+            #tags{
+                display:flex;
+                flex-direction:row;
+                flex-wrap: wrap;
+                border-top:1px solid gray;
+                padding:$padding_min_input;
+                .tag{
+                    background-color: lightgray;
+                    color:gray;
+                    padding:5px;
+                    border-radius: 15px;
+                    margin:5px;
+                    opacity:0.8;
+                    &:hover{
+                        opacity:1;
+                        transition: 0.3s;
+                    }
+                    @include media(font-size, (16px,16px,16px,14px ));
+                    &.active{
+                        background-color: white;
+                        box-shadow: 0px 0px 0px 2px black;
+                        font-weight:$font-header-weight;
+                        color:black;
+                        opacity:1;
+                    }
+                }
+            }
+            #footer{
+                border-top:1px solid grey;
+                display:flex;
+                padding:$padding_min_input;
+                padding-top:15px;
+                align-content: space-between;
+                #add_citat{
+                    font-weight:$font-header-weight;
+                    padding:5px 10px;
+                    border-radius: $padding_min;
+                    font-style:bold;
+                    align-self: flex-end;
+                    border:3px solid $red;
+                    color:$red;
+                    margin-left:auto;
+                    opacity:0.8;
+                    &:hover{
+                        opacity:1;
+                        transition: 0.3s;
+                    }
+                }
+
+            }
+
+            input[type=text], textarea{
+                margin:$padding_min 0px;
+                border-radius: $padding_min;
+                padding:$padding_min_input;
+                box-shadow: $box_shadow_lite;
+                color:grey;
+                border: none;
+                font-style: italic;
+                &:focus{
+                    outline: none !important;
+                }
+            }
+            input::placeholder, textarea::placeholder {
+                color:lightgray;
+                font-style: italic;
+              }
+        }
+    }
+    
+    #header{
+        background-color: $black;
+        padding:$padding_min;
+        box-shadow: $box_shadow;
+        color:$lite;
+        font-family: $font-family-Ubuntu-max-sans-serif;
+        display:flex;
+        flex-direction:row;
+        justify-content: space-between;
+
+
+        .name{
+            font-weight:$font-header-weight;
+            font-size: $font-size-header;
+            font-style: bold;
+            
+            &:first-letter{
+                background-color: $red;
+                padding:3px;
+                content:"";
+                border:4px double white;
+                border-top:4px outset white;
+                border-bottom:4px inset white;
+                
+            }
+            
+        }
+        #add{
+           
+            padding: 10px;
+            overflow: hidden;
+            position: relative;
+
+            color:white;
+            margin-right: -10px;
+            cursor:pointer;
+            border-left:3px inset white;
+            span{
+                position: relative;
+
+            }
+            &:before{
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                transform: translateX(-100%);
+                background: $red;
+                opacity:0.9;
+                transition: transform 0.5s ease-in-out;
+            }
+            &:hover{
+                border:none;
+                &:before{
+                    transform: translateX(0);
+                }
+            }
+        
+    }
+        
+        
+    }
+}
